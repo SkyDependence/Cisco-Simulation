@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>L3switch show ip route</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: white;               
+      color: black;                        
+      font-family: "Courier New", Mongolian Baiti;
+    }
+    .console {
+      white-space: pre;                    
+      font-size: 9px;
+      line-height: 1.4;
+      padding: 1rem;
+    }
+  </style>
+</head>
+<body>
+<div class="console">
+rc#show crypto map
+
+Crypto Map sh-bj 1 ipsec-isakmp
+   Peer = 211.1.1.1
+   Extended IP access list 100
+      access-list 100 permit ip 192.168.2.0 0.0.0.255 192.168.1.0 0.0.0.255
+   Current peer: 211.1.1.1
+   Security association lifetime: 4608000 kilobytes/86400 seconds
+   PFS (Y/N): N
+   Transform sets={
+      shanghai,
+   }
+   Interfaces using crypto map sh-bj:
+      Serial0/0/1
+</div>
+</body>
+</html>

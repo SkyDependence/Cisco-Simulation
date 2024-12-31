@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>模拟Cisco Packet Tracer浏览器</title>
+  <style>
+    /* 基础样式与重置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      /* 模拟课本灰度印刷，给点淡灰背景 */
+      background: #eee;
+      /* Packet Tracer 中的中文字体常见情况：Windows下的宋体/微软雅黑，英文下常用Arial */
+      font-family: 'Courier New', Mongolian Baiti;
+      font-size: 14px;
+      line-height: 1.4;
+      padding: 20px;
+    }
+
+    /* 整体容器，模拟Packet Tracer界面 */
+    .packettracer-frame {
+      width: 720px;
+      margin: 0 auto;
+      background: #f8f8f8; 
+      border: 1px solid #ccc;
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+      position: relative;
+      padding: 8px;
+    }
+    
+    /* 顶部：模拟Packet Tracer窗口上方的条 */
+    .pt-topbar {
+      background: #eaeaea;
+      border: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      padding: 4px 8px;
+      margin-bottom: 4px;
+      font-size: 13px;
+      color: #333;
+      font-weight: bold;
+    }
+    .pt-topbar img {
+      width: 20px;
+      height: 20px;
+      margin-right: 6px;
+    }
+    .pt-topbar .pt-title {
+      margin-right: auto;
+    }
+    .pt-topbar .pt-close-btn {
+      width: 20px;
+      height: 20px;
+      background: #ccc;
+      margin-left: 8px;
+      text-align: center;
+      line-height: 20px;
+      cursor: default;
+    }
+
+    /* 模拟“Physical / Config / Desktop / Custom Interface”选项卡 */
+    .pt-tabs {
+      display: flex;
+      font-size: 13px;
+      border: 1px solid #ccc;
+      margin-bottom: 8px;
+    }
+    .pt-tab {
+      flex: none;
+      padding: 4px 12px;
+      border-right: 1px solid #ccc;
+      background: #fafafa;
+      cursor: default;
+    }
+    .pt-tab:hover {
+      background: #f0f0f0;
+    }
+
+    /* 内部的“Web Browser”窗口 */
+    .browser-window {
+      border: 1px solid #aaa;
+      background: #fff;
+    }
+    /* Browser 标题栏 */
+    .browser-titlebar {
+      background: blue;
+      color: #fff;
+      padding: 6px 10px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    /* Browser 工具栏：Back, Forward, URL, Go, Stop */
+    .browser-toolbar {
+      background: #dcdcdc;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+    }
+    .browser-toolbar button {
+      background: white;
+      border: 1px solid #bbb;
+      padding: 2px 8px;
+      cursor: pointer;
+      font-family: 'Courier New', Mongolian Baiti;
+    }
+    .browser-toolbar button:hover {
+      background: #f0f0f0;
+      font-family: 'Courier New', Mongolian Baiti;
+    }
+    .url-label {
+      font-weight: bold;
+      margin-right: 4px;
+    }
+    .url-bar {
+      flex: 1;
+    }
+    .url-bar input {
+      width: 100%;
+      padding: 3px 6px;
+      border: 1px solid #aaa;
+      font-size: 13px;
+      font-family: 'Courier New', Mongolian Baiti;
+    }
+
+    /* Browser 内容区域 */
+    .browser-content {
+      padding: 16px 20px;
+    }
+    .browser-content h1 {
+        color: blue;
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+    .browser-content p {
+      margin: 4px 0 12px 0;
+    }
+    .browser-content h2 {
+      font-size: 14px;
+      margin: 12px 0 6px 0;
+    }
+    .browser-content a {
+      color: blue;
+      text-decoration: none;
+    }
+    .browser-content a {
+      text-decoration: underline;
+    }
+    .quick-links {
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+    .quick-links li {
+      margin: 2px 0;
+    }
+    hr {
+        width: 100%;
+        margin: 10px auto; /* 居中 */
+        border: none;
+        height: 1px;
+        background-color: gray;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="packettracer-frame">
+  <!-- 上方模拟Packet Tracer窗口的标题 -->
+  <div class="pt-topbar">
+    <!-- 模拟PC-->
+    <div class="pt-title">PC0</div>
+    <!-- 右侧可以放模拟的关闭按钮 -->
+    <div class="pt-close-btn">X</div>
+  </div>
+
+  <!-- 模拟 Packet Tracer 上方的功能选项卡：Physical / Config / Desktop / Custom Interface -->
+  <div class="pt-tabs">
+    <div class="pt-tab">Physical</div>
+    <div class="pt-tab">Config</div>
+    <div class="pt-tab">Desktop</div>
+    <div class="pt-tab">Custom Interface</div>
+  </div>
+
+  <!-- 模拟浏览器窗口 -->
+  <div class="browser-window">
+    <!-- 浏览器标题栏 -->
+    <div class="browser-titlebar">Web Browser</div>
+    <!-- 工具栏 -->
+    <div class="browser-toolbar">
+      <button><</button>
+      <button>></button>
+      <span class="url-label">URL</span>
+      <div class="url-bar">
+        <input type="text" value="http://211.2.2.3">
+      </div>
+      <button>Go</button>
+      <button>Stop</button>
+    </div>
+    <!-- 网页内容 -->
+    <div class="browser-content">
+      <h1>Cisco Packet Tracer</h1>
+      <hr>
+      <p>Welcome to Cisco Packet Tracer. Opening doors to new opportunities. Mind Wide Open.</p>
+      <h2>Quick Links:</h2>
+      <ul class="quick-links">
+        <li><a href="#">A small page</a></li>
+        <li><a href="#">Copyrights</a></li>
+        <li><a href="#">Image page</a></li>
+        <li><a href="#">Image</a>this is 211.2.2.3</li>
+        <br>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
